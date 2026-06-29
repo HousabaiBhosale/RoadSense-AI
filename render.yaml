@@ -1,0 +1,37 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: roadsense-backend
+    runtime: python
+    buildCommand: "pip install -r backend/requirements.txt && python scripts/train_initial_model.py"
+    startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
+      - key: DATABASE_URL
+        fromDatabase:
+          name: roadsense-db
+          property: connectionString
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        value: "*"
+
+  # Frontend Static Site
+  - type: web
+    name: roadsense-frontend
+    runtime: static
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "./frontend/dist"
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: roadsense-backend
+          property: url
+
+databases:
+  - name: roadsense-db
+    databaseName: roadsense
+    user: roadsense_admin
+    plan: free
