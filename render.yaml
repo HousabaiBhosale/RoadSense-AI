@@ -28,7 +28,7 @@ services:
         fromService:
           type: web
           name: roadsense-backend
-          property: url
+          property: host
 
 databases:
   - name: roadsense-db
