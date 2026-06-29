@@ -3,6 +3,7 @@ services:
   - type: web
     name: roadsense-backend
     runtime: python
+    plan: free
     buildCommand: "pip install -r backend/requirements.txt && python scripts/train_initial_model.py"
     startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -21,6 +22,7 @@ services:
   - type: web
     name: roadsense-frontend
     runtime: static
+    plan: free
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishPath: "./frontend/dist"
     envVars:
