@@ -16,15 +16,17 @@ import { ModelTraining } from './pages/ModelTraining';
 import { History } from './pages/History';
 import { Login, Register, ForgotPassword } from './pages/AuthPages';
 import { About, Team, Profile, Settings, NotFound } from './pages/SecondaryPages';
+import { AnimatedBackground } from './components/AnimatedBackground';
 
 export const App: React.FC = () => {
   return (
     <AuthProvider>
       <ThemeProvider>
         <Router>
-          <div className="min-h-screen flex flex-col bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
+          <div className="min-h-screen flex flex-col bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300 relative">
+            <AnimatedBackground />
             <Navbar />
-            <main className="flex-grow">
+            <main className="flex-grow relative z-10">
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/dashboard" element={<Dashboard />} />
